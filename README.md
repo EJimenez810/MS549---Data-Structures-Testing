@@ -29,3 +29,19 @@ This script creates and prints instances of `Car`, `Rider`, and `Simulation` to 
 - `rider.py`
 - `simulation.py`
 - `test_simulation.py`
+- `map.csv`
+- `graph.py`
+- `test_graph_simulation.py`
+
+## Milestone 2: Graph Integration – City Map Support
+
+In this milestone, we introduced a `Graph` class to represent the city map as an adjacency list, allowing for flexible and dynamic map loading from an external `.csv` file. The `Simulation` class was updated to accept a `map_filename` parameter and now stores the loaded graph as `self.map`.
+
+### 🔧 How to Run
+
+1. Ensure `map.csv` exists in your project directory.
+2. Run the updated test script with:
+
+```bash
+python3 test_simulation.py
+python test_graph_simulation.py
