@@ -72,3 +72,16 @@ In this milestone, we implemented Dijkstra's Shortest Path Algorithm to enable c
 python3 test_simulation.py
 python test_graph_simulation.py
 python3 test_dijkstra.py
+```
+
+## Milestone 5: Quadtree – Efficient Nearest-Neighbor Search
+
+This milestone introduces a spatial index using a **Quadtree** to find the nearest available car to a rider in approximately O(log N) time (vs. O(N) brute-force). The tree partitions the 2D map into recursively smaller rectangles and prunes entire regions that cannot contain a closer point.
+
+Files Added
+- `quadtree.py` – Manual classes (`Point`, `Rectangle`, `QuadtreeNode`, `Quadtree`), no dataclasses used, might be changed to dataclasses in future updates.
+- `test_quadtree.py` – Standalone test that compares Quadtree results to a brute-force search for correctness and prints timings.
+
+## How to Run
+```bash
+python3 test_quadtree.py
