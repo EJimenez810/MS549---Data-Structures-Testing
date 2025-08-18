@@ -21,7 +21,10 @@ class Car:
         # Destination is not set yet
         self.destination = None
 
-        # Route-related attributes
+        # Rider currently assigned to this car, None if available
+        self.assigned_rider = None
+
+        # Route-related attributes for Dijkstra
         self.route = []
         self.route_time = 0
 
@@ -39,5 +42,6 @@ class Car:
             print(f"Car {self.id}: No route found from {self.location} to {destination}.")
 
     def __str__(self):
-        # returns cars current status
-        return f"Car {self.id} at {self.location} - Status: {self.status}"
+        # returns cars current status and assigned rider
+        rider_info = f" -> Rider {self.assigned_rider.id}" if self.assigned_rider else ""
+        return f"Car {self.id} at {self.location} - Status: {self.status}{rider_info}"
