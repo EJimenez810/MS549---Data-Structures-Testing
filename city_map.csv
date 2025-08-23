@@ -1,0 +1,9 @@
+start_node,start_x,start_y,end_node,end_x,end_y,weight
+A,0,0,B,5,0,5
+B,5,0,A,0,0,5
+A,0,0,C,0,5,3
+C,0,5,A,0,0,3
+B,5,0,D,5,5,4
+D,5,5,B,5,0,4
+C,0,5,D,5,5,1
+D,5,5,C,0,5,1
