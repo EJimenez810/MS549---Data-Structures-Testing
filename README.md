@@ -106,3 +106,96 @@ In this milestone, we introduced an event-driven simulation engine to model ride
 ```bash
 python3 simulation_demo.py
 ```
+
+## Final Project Overview:
+This project implements a discrete-event ride-sharing simulator in Python, developed incrementally over multiple milestones. The final version integrates cars, riders, a city graph with coordinates, Dijkstra’s shortest-path algorithm, a spatial index (Quadtree), and dynamic event-driven request generation. The simulator models how a ride-sharing service (like Uber/Lyft) operates under load, collects performance data (KPIs), and outputs a visual analytical summary (`simulation_summary.png`).
+
+## Final Features:
+1. Dynamic Event-Driven Simulation
+    - Rider requests generated with random inter-arrival times (Poisson process).
+    - Events managed by a priority queue (`heapq`).
+2. Graph + Dijkstra Pathfinding
+    - Supports 7-column unified CSV maps with both node IDs and (x,y) coordinates (`city_map.csv`).
+    - Travel times computed using shortest-path routing, not just Manhattan distance.
+3. Car Matching
+    - Efficient Quadtree nearest-neighbor search (O(log N)) to find candidate cars.
+    - Falls back to brute-force search if Quadtree payloads aren’t supported.
+    - Chooses the best car using Dijkstra’s true driving time.
+4. Performance Metrics (KPIs)
+    - Average rider wait time.
+    - Average trip duration.
+    - Driver utilization (% of time cars are busy).
+5. Visualization Output
+    - Final car positions overlaid on the city map (`simulation_summary.png`).
+    - Performance metrics displayed as text (`simulation_summary.png` and terminal text).
+    - Histogram of rider wait times included for deeper insight (`simulation_summary.png`).
+  
+## Files Modified:
+- `car.py`
+- `rider.py`
+- `graph.py`
+- `map.csv` - Now renamed `legacy_map.csv`
+- `city_map.csv` - New file
+- `simulation.py`
+- `simulation_summary.png` - File created when running simulation
+
+## Full Project Structure:
+- `car.py` – Defines the Car class (status, assigned rider, route).
+- `rider.py` – Defines the Rider class (start, destination, status).
+- `graph.py` – City map with adjacency list + node coordinates; loads both 3-col legacy and 7-col unified CSVs.
+- `pathfinding.py` – Dijkstra’s algorithm for shortest-path routing.
+- `quadtree.py` – Quadtree spatial index for efficient car lookup.
+- `simulation.py` – Final event-driven engine (dynamic requests, car assignment, KPIs, visualization).
+- `city_map.csv` – Final 7-column city map (coordinates + edges).
+- `legacy_map.csv` – Legacy 3-column format, kept for backwards compatibility.
+
+## How to Run
+Basic run with default map and settings
+```bash
+python3 simulation.py --map city_map.csv --num-cars 5 --max-time 600
+```
+
+## Command-Line Options
+
+1. `--map` → Path to `city_map.csv` (7-col preferred).
+2. `--max-time` → Simulation horizon (time units).
+3. `--mean-arrival` → Mean inter-arrival time for riders (default = 30).
+4. `--num-cars` → Number of cars to seed initially.
+5. `--seed-mode` → How to place cars:
+    1. `auto` → On graph nodes if 7-col map available, else in default box.
+    2. `graph` → Exactly on random graph nodes.
+    3. `box` → Uniform random in `[0,100]^2`.
+    4. `manual` → User-specified positions via `--manual-cars`.
+6. `--manual-cars` → Positions for manual mode, e.g. `"5,5;12,2;0,0"`.
+7. `--seed` → Random seed for reproducibility.
+
+## Example Runs
+Run with graph-based seeding
+```bash
+python3 simulation.py --map city_map.csv --num-cars 10 --seed-mode graph
+```
+Run with manual cars
+```bash
+python3 simulation.py --map city_map.csv --seed-mode manual --manual-cars "5,5;12,2;0,0"
+```
+
+## Output:
+After the simulation ends, a single PNG file is generated:
+`simulation_summary.png`
+  - Left panel: City map + final car positions.
+  - Right panel: KPI summary and histogram of rider wait times.
+
+## Dependencies
+1. Python 3.x
+    - Standard library:
+        - `heapq`
+        - `csv`
+        - `math`
+        - `argparse`
+        - `random`
+    - External:
+        - `matplotlib` - for visualization
+2. Install Dependencies:
+    ```bash
+    pip install matplotlib
+    ```
